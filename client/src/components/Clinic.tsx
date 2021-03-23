@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { getOpeningHours } from "../utils/Clinic.utils";
 import { Clinic, getTime } from "../helpers";
 
 const Clinics = () => {
@@ -21,50 +22,7 @@ const Clinics = () => {
 
   useEffect(() => {
     getClinics();
-    console.log(getOpeningHours());
   }, []);
-
-  function checkHour(arr: any[], from: number, to: number) {
-    return arr.filter((time: any) => time.from === from && time.to === to);
-  }
-
-  const daysOfWeek = {
-    Monday: 1,
-    Tuesday: 2,
-    Wednesday: 3,
-    Thursday: 4,
-    Friday: 5,
-    Saturday: 6,
-    Sunday: 7,
-  };
-
-  function getOpeningHours() {
-    clinics.map((clinic) => {
-      const daysList = clinic.openingHours;
-
-      console.log(clinic);
-
-      //const { mon, tue, wed, thu, fri, sat, sun } = daysList;
-      const days = Object.entries(clinic.openingHours);
-      console.log("Klinikk: " + clinic.name);
-      days.map((day) => {
-        console.log("Dag: " + day[0]);
-        const from = day[1].periods[0].from;
-        const to = day[1].periods[0].to;
-        const toFrom = day[1].periods;
-        const open = day[1].isOpen;
-
-        if (open) {
-          console.log(getTime(from) + "-" + getTime(to));
-        } else {
-          console.log("Stengt");
-        }
-
-        return;
-      });
-      return <div>{days}</div>;
-    });
-  }
 
   /*  For hver klinikk         
         Hente ut åpningstider  
@@ -85,25 +43,7 @@ const Clinics = () => {
             <div className="clinic" key={clinic.id}>
               <h5>{clinic.name}</h5>
               <p>Åpningstider</p>
-              <ul>
-                {/* {Object.entries(clinic.openingHours).map(([key, value]) => (
-                  <div>
-                    {key}: {value.isOpen.toString()}: {typeof value.periods}
-                  </div>
-                ))} */}
-                {/* {!clinic.isOpen ? (
-                  <li>Mandag: Stengt</li>
-                ) : (
-                  clinic.openingHours.mon.periods.map((hour) => (
-                    <li>
-                      Mandag:{" "}
-                      {hour.from !== 0
-                        ? getTime(hour.from) + "-" + getTime(hour.to)
-                        : "Stengt"}
-                    </li>
-                  ))
-                )} */}
-              </ul>
+              <ul></ul>
             </div>
           ))}
       </div>

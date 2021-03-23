@@ -8,12 +8,18 @@ export interface Clinic {
   isFull: boolean;
   delay: number;
   priority: number;
-  nextAvailableVideo: string;
+  nextAvailableVideo: number;
   nextAvailableConsultation: number;
   isVideoBookingOpen: boolean;
 }
 export interface OpeningHours {
-  [key: string]: IsOpenPeriods;
+  mon: IsOpenPeriods;
+  tue: IsOpenPeriods;
+  wed: IsOpenPeriods;
+  thu: IsOpenPeriods;
+  fri: IsOpenPeriods;
+  sat: IsOpenPeriods;
+  sun: IsOpenPeriods;
 }
 export interface Periods {
   to: number;
@@ -35,7 +41,7 @@ export const daysOfWeek = {
 };
 
 /* -- Milliseconds to hour -- */
-export function getTime(time: number) {
+export function getTime(time: number): number {
   // 3600000 milliseconds
   const hour = 3600000;
   const hours = time / hour;
