@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getOpeningHours } from "../utils/Clinic.utils";
-import { Clinic, getTime } from "../helpers";
+import { getAllOpeningHours, getOpeningHours } from "../utils/Clinic.utils";
+import { Clinic } from "../helpers";
 
 const Clinics = () => {
   const [clinics, setClinics] = useState<Clinic[]>([]);
@@ -24,13 +24,9 @@ const Clinics = () => {
     getClinics();
   }, []);
 
-  /*  For hver klinikk         
-        Hente ut åpningstider  
-          For hver dag         
-          
-          Er dager sine åpningstider like
-            Finn hvilke dager og sett fra første dag i uka til siste dag i uka
-            Er dag stengt, returner stengt   */
+  const clinicStatus = getAllOpeningHours(clinics);
+
+  console.log(clinicStatus);
 
   return (
     <div>
@@ -39,11 +35,19 @@ const Clinics = () => {
         {loading && <div>Loading..</div>}
         {!loading &&
           !error &&
-          clinics.map((clinic) => (
-            <div className="clinic" key={clinic.id}>
-              <h5>{clinic.name}</h5>
-              <p>Åpningstider</p>
-              <ul></ul>
+          clinicStatus.map((clinic) => (
+            <div className="clinic-holder">
+              <div className="clinic">
+                <div className="clinic-name">
+                  <h2>{clinic.name}</h2>
+                </div>
+                <div className="clinic-hours">
+                  <h3>Åpningstider</h3>
+                  <ul>
+                    <li>{clinic.openingHours[0]}</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           ))}
       </div>

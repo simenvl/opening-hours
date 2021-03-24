@@ -28,11 +28,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 100%;
 
   .clinic {
     margin: 0.5em;
     width: 100%;
+    padding: 0.5em;
+    border: 1px solid rgb(88, 88, 88);
+    border-radius: 0.5em;
   }
 }
 

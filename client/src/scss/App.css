@@ -28,12 +28,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 100%;
 }
 
 .clinic-holder .clinic {
   margin: 0.5em;
   width: 100%;
+  padding: 0.5em;
+  border: 1px solid #585858;
+  border-radius: 0.5em;
 }
 
 ul {

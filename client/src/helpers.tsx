@@ -40,11 +40,23 @@ export const daysOfWeek = {
   sunday: 7,
 };
 
+export type DayGroups = {
+  from: number;
+  to: number;
+  groupLabel: string[];
+  status: string;
+  isOpen: boolean;
+};
+
 /* -- Milliseconds to hour -- */
 export function getTime(time: number): number {
   // 3600000 milliseconds
-  const hour = 3600000;
-  const hours = time / hour;
+  if (time === 0) {
+    return 24;
+  } else {
+    const hour = 3600000;
+    const hours = time / hour;
 
-  return hours;
+    return hours;
+  }
 }
