@@ -47,10 +47,8 @@ export function getOpeningHours(clinic: Clinic): DayGroups[] {
   ];
 
   const days = getDays(clinic);
-
   days.slice(1).forEach(([dayKey, openPeriod], index) => {
     const monday = dayGroupResult[dayGroupResult.length - 1];
-
     /* 
       Check if current day is not open and have the same 
       opening hours as the day before, along with opening status.
@@ -96,6 +94,7 @@ export function getOpeningHours(clinic: Clinic): DayGroups[] {
       });
     }
   });
+  console.log(dayGroupResult);
   return dayGroupResult;
 }
 
@@ -115,7 +114,6 @@ export function getAllOpeningHours(clinics: Clinic[]): ClinicWithDayGroups[] {
   let week: Days[] = [];
   clinics.forEach((clinic) => {
     const dayGroupResult = getOpeningHours(clinic);
-    week = [];
     week.push({
       Mandag: dayGroupResult,
       Tirsdag: dayGroupResult,
@@ -129,10 +127,8 @@ export function getAllOpeningHours(clinics: Clinic[]): ClinicWithDayGroups[] {
       clinic: clinic,
       dayGroups: dayGroupResult,
     });
-
-    return clinicListDayGroups;
   });
-
+  console.log(clinicListDayGroups);
   return clinicListDayGroups;
 }
 
