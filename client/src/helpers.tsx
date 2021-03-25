@@ -44,8 +44,22 @@ export type DayGroups = {
   from: number;
   to: number;
   groupLabel: string[];
-  status: string;
   isOpen: boolean;
+};
+
+export type Days = {
+  Mandag: DayGroups[];
+  Tirsdag: DayGroups[];
+  Onsdag: DayGroups[];
+  Torsdag: DayGroups[];
+  Fredag: DayGroups[];
+  Lørdag: DayGroups[];
+  Søndag: DayGroups[];
+};
+
+export type ClinicWithDayGroups = {
+  clinic: Clinic;
+  dayGroups: DayGroups[];
 };
 
 /* -- Milliseconds to hour -- */

@@ -1,24 +1,10 @@
-import Clinics from "../components/Clinic";
-import { Clinic, DayGroups, IsOpenPeriods, OpeningHours } from "../helpers";
-
-type ClinicListDayGroups = {
-  id: string;
-  name: string;
-  timezone: string;
-  openingHours: Days[];
-  estimatedWaitingTimeInMinutes: number;
-  isOpen: boolean;
-  isFull: boolean;
-  delay: number;
-  priority: number;
-  nextAvailableVideo: number;
-  nextAvailableConsultation: number;
-  isVideoBookingOpen: boolean;
-};
-
-type Days = {
-  [key: string]: DayGroups[];
-};
+import {
+  Clinic,
+  ClinicWithDayGroups,
+  DayGroups,
+  Days,
+  IsOpenPeriods,
+} from "../helpers";
 
 export function getDays(clinic: Clinic): [string, IsOpenPeriods][] {
   let days: [string, IsOpenPeriods][] = [];
@@ -40,7 +26,6 @@ export function getOpeningHours(clinic: Clinic): DayGroups[] {
       from: clinic.openingHours.mon.periods[0].from,
       to: clinic.openingHours.mon.periods[0].to,
       groupLabel: ["Mandag"],
-      status: "",
       isOpen: clinic.openingHours.mon.isOpen,
     },
   ];
@@ -50,12 +35,16 @@ export function getOpeningHours(clinic: Clinic): DayGroups[] {
   days.slice(1).forEach(([dayKey, openPeriod], index) => {
     const monday = dayGroupResult[dayGroupResult.length - 1];
 
-    if (!openPeriod.isOpen) {
+    if (
+      !openPeriod.isOpen === dayGroupResult[dayGroupResult.length - 1].isOpen &&
+      openPeriod.periods[0].from ===
+        dayGroupResult[dayGroupResult.length - 1].from &&
+      openPeriod.periods[0].to === dayGroupResult[dayGroupResult.length - 1].to
+    ) {
       dayGroupResult.push({
         from: openPeriod.periods[0].from,
         to: openPeriod.periods[0].to,
         groupLabel: [cleanDays(dayKey)],
-        status: "Stengt",
         isOpen: false,
       });
 
@@ -75,43 +64,37 @@ export function getOpeningHours(clinic: Clinic): DayGroups[] {
         from: openPeriod.periods[0].from,
         to: openPeriod.periods[0].to,
         groupLabel: [cleanDays(dayKey)],
-        status: "Åpen",
         isOpen: true,
       });
     }
   });
-
+  console.log(dayGroupResult);
   return dayGroupResult;
 }
 
-export function getAllOpeningHours(clinics: Clinic[]): ClinicListDayGroups[] {
-  let clinicListDayGroups: ClinicListDayGroups[] = [];
+export function getAllOpeningHours(clinics: Clinic[]): ClinicWithDayGroups[] {
+  let clinicListDayGroups: ClinicWithDayGroups[] = [];
+  let week: Days[] = [];
   clinics.forEach((clinic) => {
-    let days = getDays(clinic);
-    days.forEach((day) => {
-      let dayKey = cleanDays(day[0]);
-      let week: Days[] = [{ dayKey: getOpeningHours(clinic) }];
-      clinicListDayGroups.push({
-        id: clinic.id,
-        name: clinic.name,
-        timezone: clinic.timezone,
-        openingHours: week,
-        estimatedWaitingTimeInMinutes: clinic.estimatedWaitingTimeInMinutes,
-        isOpen: clinic.isOpen,
-        isFull: clinic.isFull,
-        delay: clinic.delay,
-        priority: clinic.priority,
-        nextAvailableVideo: clinic.nextAvailableVideo,
-        nextAvailableConsultation: clinic.nextAvailableConsultation,
-        isVideoBookingOpen: clinic.isVideoBookingOpen,
-      });
-      const dayGroupResult = getOpeningHours(clinic);
-
-      //clinicListDayGroups.push(clinic, dayGroupResult);
+    const dayGroupResult = getOpeningHours(clinic);
+    week = [];
+    week.push({
+      Mandag: dayGroupResult,
+      Tirsdag: dayGroupResult,
+      Onsdag: dayGroupResult,
+      Torsdag: dayGroupResult,
+      Fredag: dayGroupResult,
+      Lørdag: dayGroupResult,
+      Søndag: dayGroupResult,
     });
+    clinicListDayGroups.push({
+      clinic: clinic,
+      dayGroups: dayGroupResult,
+    });
+
+    return clinicListDayGroups;
   });
 
-  //console.log(clinicListDayGroups);
   return clinicListDayGroups;
 }
 

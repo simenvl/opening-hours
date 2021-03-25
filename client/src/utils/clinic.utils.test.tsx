@@ -10,10 +10,10 @@ test("moro", () => {
       openingHours: {
         mon: { isOpen: false, periods: [{ to: 64800000, from: 32400000 }] },
         sat: { isOpen: false, periods: [{ to: 64800000, from: 32400000 }] },
-        tue: { periods: [{ to: 64800000, from: 32400000 }], isOpen: true },
+        tue: { periods: [{ to: 64800000, from: 32400000 }], isOpen: false },
         fri: { periods: [{ to: 64800000, from: 32400000 }], isOpen: true },
         sun: { periods: [{ to: 64800000, from: 32400000 }], isOpen: true },
-        wed: { isOpen: true, periods: [{ to: 64800000, from: 32400000 }] },
+        wed: { isOpen: true, periods: [{ to: 64800000, from: 39600000 }] },
         thu: { isOpen: true, periods: [{ to: 64800000, from: 39600000 }] },
       },
       estimatedWaitingTimeInMinutes: 8,
@@ -25,29 +25,30 @@ test("moro", () => {
       nextAvailableConsultation: 8,
       isVideoBookingOpen: true,
     },
-    {
-      id: "fysikalskemajorstua",
-      name: "Fysikalske majorstua",
-      timezone: "Europe/Oslo",
-      openingHours: {
-        sun: { periods: [{ to: 68400000, from: 32400000 }], isOpen: true },
-        tue: { periods: [{ to: 72000000, from: 39600000 }], isOpen: true },
-        sat: { isOpen: true, periods: [{ to: 79200000, from: 32400000 }] },
-        mon: { periods: [{ to: 79200000, from: 32400000 }], isOpen: false },
-        fri: { periods: [{ to: 79200000, from: 32400000 }], isOpen: true },
-        wed: { isOpen: true, periods: [{ from: 36000000, to: 79200000 }] },
-        thu: { isOpen: true, periods: [{ from: 32400000, to: 79200000 }] },
-      },
-      estimatedWaitingTimeInMinutes: 8,
-      isOpen: true,
-      isFull: false,
-      delay: 0,
-      priority: 10,
-      nextAvailableVideo: 8,
-      nextAvailableConsultation: 0,
-      isVideoBookingOpen: true,
-    },
+    // {
+    //   id: "fysikalskemajorstua",
+    //   name: "Fysikalske majorstua",
+    //   timezone: "Europe/Oslo",
+    //   openingHours: {
+    //     sun: { periods: [{ to: 68400000, from: 32400000 }], isOpen: true },
+    //     tue: { periods: [{ to: 72000000, from: 39600000 }], isOpen: false },
+    //     sat: { isOpen: true, periods: [{ to: 79200000, from: 32400000 }] },
+    //     mon: { periods: [{ to: 79200000, from: 32400000 }], isOpen: false },
+    //     fri: { periods: [{ to: 79200000, from: 32400000 }], isOpen: true },
+    //     wed: { isOpen: true, periods: [{ from: 36000000, to: 79200000 }] },
+    //     thu: { isOpen: true, periods: [{ from: 32400000, to: 79200000 }] },
+    //   },
+    //   estimatedWaitingTimeInMinutes: 8,
+    //   isOpen: true,
+    //   isFull: false,
+    //   delay: 0,
+    //   priority: 10,
+    //   nextAvailableVideo: 8,
+    //   nextAvailableConsultation: 0,
+    //   isVideoBookingOpen: true,
+    // },
   ];
+
   //   {
   //     id: "kiropraktormaja",
   //     name: "Kiropraktor maja",
@@ -228,30 +229,51 @@ test("moro", () => {
 
   const result = getAllOpeningHours(clinics);
 
-  result.forEach((res) =>
-    res.openingHours.forEach((hour) =>
-      hour.groupLabel.forEach((h) => console.log(h))
-    )
-  );
+  //console.log(result[0].dayGroups[1]);
+  //result.map((res) => res.dayGroups.map((day) => console.log(day)));
 
   // expect(result).toEqual([
   //   {
   //     from: 32400000,
   //     to: 64800000,
-  //     groupLabel: ["Mandag", "Tirsdag"],
-  //     status: "Åpen",
-  //   },
-  //   {
-  //     from: 40000000,
-  //     to: 64800000,
-  //     groupLabel: ["Onsdag"],
-  //     status: "Åpen",
+  //     groupLabel: ["Mandag"],
+  //     status: "",
+  //     isOpen: false,
   //   },
   //   {
   //     from: 32400000,
   //     to: 64800000,
-  //     groupLabel: ["Torsdag", "Fredag", "Søndag"],
+  //     groupLabel: ["Tirsdag", "Onsdag"],
   //     status: "Åpen",
+  //     isOpen: true,
+  //   },
+  //   {
+  //     from: 39600000,
+  //     to: 64800000,
+  //     groupLabel: ["Torsdag"],
+  //     status: "Åpen",
+  //     isOpen: true,
+  //   },
+  //   {
+  //     from: 32400000,
+  //     to: 64800000,
+  //     groupLabel: ["Fredag"],
+  //     status: "Åpen",
+  //     isOpen: true,
+  //   },
+  //   {
+  //     from: 32400000,
+  //     to: 64800000,
+  //     groupLabel: ["Lørdag"],
+  //     status: "Stengt",
+  //     isOpen: false,
+  //   },
+  //   {
+  //     from: 32400000,
+  //     to: 64800000,
+  //     groupLabel: ["Søndag"],
+  //     status: "Åpen",
+  //     isOpen: true,
   //   },
   // ]);
 });

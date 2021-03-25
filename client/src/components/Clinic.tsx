@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getAllOpeningHours, getOpeningHours } from "../utils/Clinic.utils";
-import { Clinic } from "../helpers";
+import { getAllOpeningHours } from "../utils/Clinic.utils";
+import { Clinic, getTime } from "../helpers";
 
 const Clinics = () => {
   const [clinics, setClinics] = useState<Clinic[]>([]);
@@ -39,12 +39,24 @@ const Clinics = () => {
             <div className="clinic-holder">
               <div className="clinic">
                 <div className="clinic-name">
-                  <h2>{clinic.name}</h2>
+                  <h2>{clinic.clinic.name}</h2>
                 </div>
                 <div className="clinic-hours">
                   <h3>Åpningstider</h3>
                   <ul>
-                    <li>{clinic.openingHours[0]}</li>
+                    {clinic.dayGroups.map((day) => (
+                      <li>
+                        {day.groupLabel.length > 1
+                          ? day.groupLabel[0] +
+                            " - " +
+                            day.groupLabel[day.groupLabel.length - 1]
+                          : day.groupLabel[0]}
+                        {": "}
+                        {!day.isOpen
+                          ? "Stengt"
+                          : getTime(day.from) + "-" + getTime(day.to)}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
