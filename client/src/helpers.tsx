@@ -30,16 +30,6 @@ export interface IsOpenPeriods {
   periods: Periods[];
 }
 
-export const daysOfWeek = {
-  monday: 1,
-  tuesday: 2,
-  wednesday: 3,
-  thursday: 4,
-  friday: 5,
-  saturday: 6,
-  sunday: 7,
-};
-
 export type DayGroups = {
   from: number;
   to: number;

@@ -6,6 +6,7 @@ import {
   IsOpenPeriods,
 } from "../helpers";
 
+/* --- GET ALL DAYS --- */
 export function getDays(clinic: Clinic): [string, IsOpenPeriods][] {
   let days: [string, IsOpenPeriods][] = [];
   days = [
@@ -20,7 +21,22 @@ export function getDays(clinic: Clinic): [string, IsOpenPeriods][] {
   return days;
 }
 
+/* --- GET OPENING HOURS FOR A SINGLE CLINIC --- */
 export function getOpeningHours(clinic: Clinic): DayGroups[] {
+  /* 
+    Go through all days, to see if that uniqe day have the same opening hour
+    as the on before.
+
+    type DayGroups = {
+      from: number;
+      to: number;
+      groupLabel: string[];
+      isOpen: boolean;
+    }
+
+    Also returns a list of days that have matching opening hours.
+  */
+
   const dayGroupResult: DayGroups[] = [
     {
       from: clinic.openingHours.mon.periods[0].from,
@@ -35,6 +51,11 @@ export function getOpeningHours(clinic: Clinic): DayGroups[] {
   days.slice(1).forEach(([dayKey, openPeriod], index) => {
     const monday = dayGroupResult[dayGroupResult.length - 1];
 
+    /* 
+      Check if current day is not open and have the same 
+      opening hours as the day before, along with opening status.
+      If the day is closed, skip iteration and add to a label list.
+     */
     if (
       !openPeriod.isOpen === dayGroupResult[dayGroupResult.length - 1].isOpen &&
       openPeriod.periods[0].from ===
@@ -50,6 +71,13 @@ export function getOpeningHours(clinic: Clinic): DayGroups[] {
 
       return;
     }
+
+    /* 
+      Check if current day is open and have the same 
+      opening hours as the day before, along with opening status.
+      If the day is open, and have the same opening hours as the day before, 
+      add to a label list. Otherwise add a new "day".
+     */
 
     if (
       openPeriod.periods[0].from ===
@@ -68,11 +96,21 @@ export function getOpeningHours(clinic: Clinic): DayGroups[] {
       });
     }
   });
-  console.log(dayGroupResult);
   return dayGroupResult;
 }
 
+/* --- GET ALL OPENING HOURS --- */
 export function getAllOpeningHours(clinics: Clinic[]): ClinicWithDayGroups[] {
+  /* 
+    Get a list of Clinics and pass them through "getOpeningHours" for each clinic.
+
+    type ClinicWithDayGroups = {
+      clinic: Clinic;
+      dayGroups: DayGroups[];
+    }
+
+    Returns all clinic information and the information about the day in a list.
+  */
   let clinicListDayGroups: ClinicWithDayGroups[] = [];
   let week: Days[] = [];
   clinics.forEach((clinic) => {

@@ -9,25 +9,40 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    -webkit-animation: App-logo-spin infinite 20s linear;
+            animation: App-logo-spin infinite 20s linear;
   }
 }
 
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
 .clinic-holder {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .clinic-holder .clinic {
@@ -38,8 +53,27 @@
   border-radius: 0.5em;
 }
 
+.clinic-holder .clinic .clinic-name h2 {
+  font-size: 1em;
+  color: #4fd3c6;
+}
+
+.clinic-holder .clinic .clinic-hours h3 {
+  font-style: italic;
+  font-size: 0.9em;
+}
+
 ul {
   list-style: none;
   text-align: center;
   padding: 0;
 }
+
+ul li {
+  font-size: 0.8em;
+}
+
+ul li .day {
+  font-weight: bold;
+}
+/*# sourceMappingURL=App.css.map */

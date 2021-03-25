@@ -26,8 +26,6 @@ const Clinics = () => {
 
   const clinicStatus = getAllOpeningHours(clinics);
 
-  console.log(clinicStatus);
-
   return (
     <div>
       <h1>Klinikker</h1>
@@ -46,15 +44,21 @@ const Clinics = () => {
                   <ul>
                     {clinic.dayGroups.map((day) => (
                       <li>
-                        {day.groupLabel.length > 1
-                          ? day.groupLabel[0] +
-                            " - " +
-                            day.groupLabel[day.groupLabel.length - 1]
-                          : day.groupLabel[0]}
+                        <span className="day">
+                          {day.groupLabel.length > 1
+                            ? day.groupLabel[0] +
+                              " - " +
+                              day.groupLabel[day.groupLabel.length - 1]
+                            : day.groupLabel[0]}
+                        </span>
                         {": "}
-                        {!day.isOpen
-                          ? "Stengt"
-                          : getTime(day.from) + "-" + getTime(day.to)}
+                        <span>
+                          {getTime(day.from) === 24 && getTime(day.to) === 24
+                            ? "Døgnåpent"
+                            : !day.isOpen
+                            ? "Stengt"
+                            : getTime(day.from) + "-" + getTime(day.to)}
+                        </span>
                       </li>
                     ))}
                   </ul>
