@@ -8,7 +8,7 @@ const Clinics = () => {
   const [error, setError] = useState(false);
 
   async function getClinics() {
-    await fetch("https://staging-core.api.drdropin.no/v1/clinics")
+    await fetch("url")
       .then((response) => response.json())
       .then((response) => {
         setClinics(response);
